@@ -1,0 +1,6 @@
+framework module SqlWrapper {
+  umbrella header "SqlWrapper-umbrella.h"
+
+  export *
+  module * { export * }
+}

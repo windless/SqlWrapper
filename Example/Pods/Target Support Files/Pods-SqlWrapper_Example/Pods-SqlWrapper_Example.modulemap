@@ -1,0 +1,6 @@
+framework module Pods_SqlWrapper_Example {
+  umbrella header "Pods-SqlWrapper_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

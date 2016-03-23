@@ -1,0 +1,25 @@
+{
+  "name": "SqlWrapper",
+  "version": "0.1.0",
+  "summary": "A short description of SqlWrapper.",
+  "description": "",
+  "homepage": "https://github.com/<GITHUB_USERNAME>/SqlWrapper",
+  "license": "MIT",
+  "authors": {
+    "Abner Zhong": "windlessg@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/<GITHUB_USERNAME>/SqlWrapper.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "requires_arc": true,
+  "source_files": "Pod/Classes/**/*",
+  "resource_bundles": {
+    "SqlWrapper": [
+      "Pod/Assets/*.png"
+    ]
+  }
+}
