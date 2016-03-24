@@ -2,7 +2,7 @@
 //  SQLQuery.swift
 //  SqlWrapper
 //
-//  Created by 钟建明 on 16/3/23.
+//  Created by A.Z on 16/3/23.
 //  Copyright © 2016年 CocoaPods. All rights reserved.
 //
 
@@ -137,6 +137,14 @@ class SQLQuerySpec: QuickSpec {
                         }
                     expect(query.build()) == "SELECT * FROM TableName WHERE Column"
                 }
+            }
+            
+            it("selects") {
+                let query: SQLQuery = SQLQuery(table: "Table")
+                    .whereWith { c in
+                        c("c1") == 1 && c("c2") == "hello"
+                    }
+                expect(query.build()) == "SELECT * FROM Table WHERE (c1 = 1 AND c2 = 'hello')"
             }
         }
     }

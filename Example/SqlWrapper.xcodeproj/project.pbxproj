@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		071FC4FA1CA3D40400D08922 /* SQLQueryConditionSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074FE2731CA2A62E0022A9DC /* SQLQueryConditionSpec.swift */; };
 		074FE26A1CA285080022A9DC /* SQLValueTransformerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074FE2691CA285080022A9DC /* SQLValueTransformerSpec.swift */; };
 		074FE26E1CA28D190022A9DC /* SQLQuerySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074FE26D1CA28D190022A9DC /* SQLQuerySpec.swift */; };
-		074FE2741CA2A62E0022A9DC /* SQLQueryConditionSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074FE2731CA2A62E0022A9DC /* SQLQueryConditionSpec.swift */; };
+		07D4FFED1CA3E8B2003A1131 /* SQLQueryComposedConditionSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D4FFEC1CA3E8B2003A1131 /* SQLQueryComposedConditionSpec.swift */; };
 		47217BB84480558EC5D78BDA /* Pods_SqlWrapper_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B6F420260FCC04E29637097 /* Pods_SqlWrapper_Tests.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
@@ -33,6 +34,7 @@
 		074FE2691CA285080022A9DC /* SQLValueTransformerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLValueTransformerSpec.swift; sourceTree = "<group>"; };
 		074FE26D1CA28D190022A9DC /* SQLQuerySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLQuerySpec.swift; sourceTree = "<group>"; };
 		074FE2731CA2A62E0022A9DC /* SQLQueryConditionSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLQueryConditionSpec.swift; sourceTree = "<group>"; };
+		07D4FFEC1CA3E8B2003A1131 /* SQLQueryComposedConditionSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLQueryComposedConditionSpec.swift; sourceTree = "<group>"; };
 		4948EAE298FD449AE5BD7E8A /* Pods-SqlWrapper_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SqlWrapper_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SqlWrapper_Example/Pods-SqlWrapper_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		5749964B9852B171AD834516 /* Pods-SqlWrapper_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SqlWrapper_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-SqlWrapper_Example/Pods-SqlWrapper_Example.release.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* SqlWrapper_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SqlWrapper_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,6 +121,7 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				07D4FFEC1CA3E8B2003A1131 /* SQLQueryComposedConditionSpec.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 				074FE2691CA285080022A9DC /* SQLValueTransformerSpec.swift */,
 				074FE26D1CA28D190022A9DC /* SQLQuerySpec.swift */,
@@ -365,7 +368,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				074FE2741CA2A62E0022A9DC /* SQLQueryConditionSpec.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
@@ -375,6 +377,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				071FC4FA1CA3D40400D08922 /* SQLQueryConditionSpec.swift in Sources */,
+				07D4FFED1CA3E8B2003A1131 /* SQLQueryComposedConditionSpec.swift in Sources */,
 				074FE26A1CA285080022A9DC /* SQLValueTransformerSpec.swift in Sources */,
 				074FE26E1CA28D190022A9DC /* SQLQuerySpec.swift in Sources */,
 			);

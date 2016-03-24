@@ -103,6 +103,12 @@ public class SQLQuery {
         return self
     }
     
+    public func whereWith(block: ConditionGenerator -> SQLQueryComposedCondition) -> SQLQuery {
+        let conditionGenerator: ConditionGenerator = { column in SQLQueryCondition(column: column) }
+        self.whereCondition = block(conditionGenerator).toSql()
+        return self
+    }
+    
     public func build() -> String {
         return "SELECT\(distinctToken) \(columnsToken) FROM \(self.table)\(whereToken)\(groupByToken)\(orderByToken)\(limitToken)\(offsetToken)"
     }
