@@ -110,7 +110,7 @@ public class SQLQuery {
     }
     
     public func build() -> String {
-        return "SELECT\(distinctToken) \(columnsToken) FROM \(self.table)\(whereToken)\(groupByToken)\(orderByToken)\(limitToken)\(offsetToken)"
+        return "SELECT\(distinctToken) \(columnsToken) FROM \(self.table)\(whereToken)\(groupByToken)\(orderByToken)\(limitToken)\(offsetToken);"
     }
     
     private var columnsToken: String {
