@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		071FC4FA1CA3D40400D08922 /* SQLQueryConditionSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074FE2731CA2A62E0022A9DC /* SQLQueryConditionSpec.swift */; };
 		074C8D801CA4DF7900C15A37 /* ActiveRecordSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074C8D7E1CA4DF7200C15A37 /* ActiveRecordSpec.swift */; };
+		074C8D851CA5366000C15A37 /* MigrationSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074C8D841CA5366000C15A37 /* MigrationSpec.swift */; };
 		074FE26A1CA285080022A9DC /* SQLValueTransformerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074FE2691CA285080022A9DC /* SQLValueTransformerSpec.swift */; };
 		074FE26E1CA28D190022A9DC /* SQLQuerySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074FE26D1CA28D190022A9DC /* SQLQuerySpec.swift */; };
 		07D4FFED1CA3E8B2003A1131 /* SQLQueryComposedConditionSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D4FFEC1CA3E8B2003A1131 /* SQLQueryComposedConditionSpec.swift */; };
@@ -33,6 +34,7 @@
 
 /* Begin PBXFileReference section */
 		074C8D7E1CA4DF7200C15A37 /* ActiveRecordSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveRecordSpec.swift; sourceTree = "<group>"; };
+		074C8D841CA5366000C15A37 /* MigrationSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MigrationSpec.swift; sourceTree = "<group>"; };
 		074FE2691CA285080022A9DC /* SQLValueTransformerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLValueTransformerSpec.swift; sourceTree = "<group>"; };
 		074FE26D1CA28D190022A9DC /* SQLQuerySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLQuerySpec.swift; sourceTree = "<group>"; };
 		074FE2731CA2A62E0022A9DC /* SQLQueryConditionSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLQueryConditionSpec.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				074FE26D1CA28D190022A9DC /* SQLQuerySpec.swift */,
 				074FE2731CA2A62E0022A9DC /* SQLQueryConditionSpec.swift */,
 				074C8D7E1CA4DF7200C15A37 /* ActiveRecordSpec.swift */,
+				074C8D841CA5366000C15A37 /* MigrationSpec.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -383,6 +386,7 @@
 				071FC4FA1CA3D40400D08922 /* SQLQueryConditionSpec.swift in Sources */,
 				07D4FFED1CA3E8B2003A1131 /* SQLQueryComposedConditionSpec.swift in Sources */,
 				074FE26A1CA285080022A9DC /* SQLValueTransformerSpec.swift in Sources */,
+				074C8D851CA5366000C15A37 /* MigrationSpec.swift in Sources */,
 				074C8D801CA4DF7900C15A37 /* ActiveRecordSpec.swift in Sources */,
 				074FE26E1CA28D190022A9DC /* SQLQuerySpec.swift in Sources */,
 			);

@@ -148,7 +148,12 @@ class SQLQuerySpec: QuickSpec {
             }
             
             it("selects count") {
-                fail()
+                let query: SQLQuery = SQLQuery(table: "Table")
+                    .whereWith { c in
+                        c("c1") == 1
+                    }
+                expect(query.buildCount()) == "SELECT count(*) FROM Table WHERE c1 = 1;"
+                
             }
         }
     }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class SQLQueryCondition: SQLQuerySqlable {
+public class SQLQueryCondition: SQLSqlable {
     let column: String
     var conditionOperator: SQLQueryConditionOperator?
     

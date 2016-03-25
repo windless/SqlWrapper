@@ -8,11 +8,11 @@
 
 import Foundation
 
-public protocol SQLQuerySqlable {
+public protocol SQLSqlable {
     func toSql() -> String
 }
 
-public class SQLQueryComposedCondition: SQLQuerySqlable {
+public class SQLQueryComposedCondition: SQLSqlable {
     enum Operator {
         case Or, And
         
@@ -26,11 +26,11 @@ public class SQLQueryComposedCondition: SQLQuerySqlable {
         }
     }
     
-    let left: SQLQuerySqlable
-    let right: SQLQuerySqlable
+    let left: SQLSqlable
+    let right: SQLSqlable
     let opet: Operator
     
-    init(left: SQLQuerySqlable, right: SQLQuerySqlable, opet: Operator) {
+    init(left: SQLSqlable, right: SQLSqlable, opet: Operator) {
         self.left = left
         self.right = right
         self.opet = opet
@@ -41,7 +41,7 @@ public class SQLQueryComposedCondition: SQLQuerySqlable {
     }
 }
 
-public func || (left: SQLQuerySqlable, right: SQLQuerySqlable) -> SQLQueryComposedCondition {
+public func || (left: SQLSqlable, right: SQLSqlable) -> SQLQueryComposedCondition {
     return SQLQueryComposedCondition(left: left, right: right, opet: .Or)
 }
 
@@ -57,7 +57,7 @@ public func || (left: SQLQuerySqlable, right: SQLQuerySqlable) -> SQLQueryCompos
 //    return SQLQueryComposedCondition()
 //}
 
-public func && (left: SQLQuerySqlable, right: SQLQuerySqlable) -> SQLQueryComposedCondition {
+public func && (left: SQLSqlable, right: SQLSqlable) -> SQLQueryComposedCondition {
     return SQLQueryComposedCondition(left: left, right: right, opet: .And)
 }
 

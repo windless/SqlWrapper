@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '530845A2D04B8384210D88BF'
+               BlueprintIdentifier = '27CB9DEC22748C4D34383514'
                BlueprintName = 'SqlWrapper'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'SqlWrapper.framework'>

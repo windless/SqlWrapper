@@ -34,7 +34,7 @@ class ActiveRecordSpec: QuickSpec {
             
             it("lists properties without ignored properties") {
                 let properties: [(String, Any)] = activeRecord.properties
-                expect(properties.map { $0.0 }) == ["primaryKey, varString", "varStringOption", "varStringOptionNil", "letString", "letInt"]
+                expect(properties.map { $0.0 }) == ["primaryKey", "varString", "varStringOption", "varStringOptionNil", "letString", "letInt"]
             }
             
             it("builds insert sql") {
@@ -50,6 +50,10 @@ class ActiveRecordSpec: QuickSpec {
             it("build delete sql") {
                 expect(activeRecord.deleteSql) ==
                     "DELETE FROM MockActiveRecord WHERE \"primaryKey\" = 'primaryKey';"
+            }
+            
+            it("has relationships") {
+                
             }
         }
     }
@@ -74,7 +78,13 @@ class MockActiveRecord: ActiveRecord {
     let letInt: Int = 1
     
     var ignoredProperty: Int?
+    
+    func relationship(r: Relationship) {
+        r.hasMany(Other.self).on("name", "name")
+        r.belongsTo(Other.self)
+    }
 }
+
 
 
 

@@ -113,6 +113,10 @@ public class SQLQuery {
         return "SELECT\(distinctToken) \(columnsToken) FROM \(self.table)\(whereToken)\(groupByToken)\(orderByToken)\(limitToken)\(offsetToken);"
     }
     
+    public func buildCount() -> String {
+        return "SELECT count(*) FROM \(self.table)\(whereToken)\(groupByToken)\(orderByToken)\(limitToken)\(offsetToken);"
+    }
+    
     private var columnsToken: String {
         return self.selectColumns?.map { "\"\($0)\"" }.joinWithSeparator(", ") ?? "*"
     }
