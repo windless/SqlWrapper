@@ -21,5 +21,10 @@
     "SqlWrapper": [
       "Pod/Assets/*.png"
     ]
+  },
+  "dependencies": {
+    "FMDB": [
+      "~> 2.6.2"
+    ]
   }
 }

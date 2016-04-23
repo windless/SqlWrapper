@@ -84,11 +84,13 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-SqlWrapper_Tests/FMDB.framework"
   install_framework "Pods-SqlWrapper_Tests/SqlWrapper.framework"
   install_framework "Pods-SqlWrapper_Tests/Nimble.framework"
   install_framework "Pods-SqlWrapper_Tests/Quick.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-SqlWrapper_Tests/FMDB.framework"
   install_framework "Pods-SqlWrapper_Tests/SqlWrapper.framework"
   install_framework "Pods-SqlWrapper_Tests/Nimble.framework"
   install_framework "Pods-SqlWrapper_Tests/Quick.framework"

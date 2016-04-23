@@ -1,7 +1,11 @@
 PODS:
+  - FMDB (2.6.2):
+    - FMDB/standard (= 2.6.2)
+  - FMDB/standard (2.6.2)
   - Nimble (3.2.0)
   - Quick (0.9.1)
-  - SqlWrapper (0.1.0)
+  - SqlWrapper (0.1.0):
+    - FMDB (~> 2.6.2)
 
 DEPENDENCIES:
   - Nimble (~> 3.0)
@@ -13,8 +17,9 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
+  FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
   Quick: a5221fc21788b6aeda934805e68b061839bc3165
-  SqlWrapper: acd7e8bfadec5094b140c19a15a46880b5a0686a
+  SqlWrapper: aae3d17bac9a564f266afef5e2e0ef384a1f0f19
 
 COCOAPODS: 0.39.0
