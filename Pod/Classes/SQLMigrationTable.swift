@@ -21,7 +21,7 @@ public class SQLMigrationTable: SQLSqlable {
     }
     
     public func id() {
-        self.integer("ID").primaryKey().notNull()
+        self.integer("ID").primaryKey().autoIncrement()
     }
     
     public func integer(column: String) -> SQLMigrationTableColumn<Int> {
@@ -71,6 +71,7 @@ public class SQLMigrationTableColumn<T>: SQLSqlable {
     var defaultValue: T? = nil
     var isNotNull = false
     var isUnique = false
+    var isAutoIncrement = false
     
     init(name: String, type: SQLMigrationTableColumnType) {
         self.name = name
@@ -97,6 +98,11 @@ public class SQLMigrationTableColumn<T>: SQLSqlable {
         return self
     }
     
+    public func autoIncrement() -> SQLMigrationTableColumn<T> {
+        self.isAutoIncrement = true
+        return self
+    }
+    
     public func toSql() -> String {
         let primaryKeyToken = isPrimaryKey ? " PRIMARY KEY" : ""
         let notNullToken = isNotNull ? " NOT NULL" : ""
@@ -107,7 +113,8 @@ public class SQLMigrationTableColumn<T>: SQLSqlable {
             defaultValueToken = ""
         }
         let uniqueToken = isUnique ? " UNIQUE" : ""
-        return "\(name) \(type.toSql())\(primaryKeyToken)\(notNullToken)\(defaultValueToken)\(uniqueToken)"
+        let autoIncrementToken = isAutoIncrement ? " AUTOINCREMENT" : ""
+        return "\(name) \(type.toSql())\(primaryKeyToken)\(notNullToken)\(defaultValueToken)\(uniqueToken)\(autoIncrementToken)"
     }
 }
 
@@ -117,7 +124,7 @@ public enum SQLMigrationTableColumnType: SQLSqlable {
     public func toSql() -> String {
         switch self {
         case .Integer:
-            return "INT"
+            return "INTEGER"
         case .Real:
             return "REAL"
         case .Text:

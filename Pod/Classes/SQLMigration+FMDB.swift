@@ -15,4 +15,38 @@ public extension FMDatabase {
         NSLog(sql)
         return self.executeStatements(sql)
     }
+    
+    public func insert(activeRecord: ActiveRecord) -> Bool {
+        do {
+            let sql = activeRecord.insertSql
+            NSLog(sql)
+            try self.executeUpdate(sql, values: [])
+            activeRecord.ID = Int(self.lastInsertRowId())
+            return true
+        } catch {
+            return false
+        }
+    }
+    
+    public func update(activeRecord: ActiveRecord) -> Bool {
+        do {
+            let sql = activeRecord.updateSql
+            NSLog(sql)
+            try self.executeUpdate(sql, values: [])
+            return true
+        } catch {
+            return false
+        }
+    }
+    
+    public func delete(activeRecord: ActiveRecord) -> Bool {
+        do {
+            let sql = activeRecord.deleteSql
+            NSLog(sql)
+            try self.executeUpdate(sql, values: [])
+            return true
+        } catch {
+            return false
+        }
+    }
 }

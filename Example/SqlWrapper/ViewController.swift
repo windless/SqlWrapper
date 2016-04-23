@@ -45,10 +45,40 @@ class ViewController: UIViewController {
             v.integer("height")
         }
         session.setup([migraion2, migraion1, migration3])
+        
+        session.inTransaction { db in
+            for i in (0..<10) {
+                let s = Student(name: "\(i)", age: i, sex: 0)
+                if !db.insert(s) {
+                    return false
+                }
+                if i == 4 {
+                    return false
+                }
+            }
+            return true
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+}
+
+class Student: ActiveRecord {
+    var name: String
+    var age: Int
+    var sex: Int
+    var grade: Double?
+    var classId: Int?
+    var height: Int?
+    
+    init(name: String, age: Int, sex: Int) {
+        self.name = name
+        self.age = age
+        self.sex = sex
+    }
+    
+    override class var primaryKey: String? { return "ID" }
 }
 

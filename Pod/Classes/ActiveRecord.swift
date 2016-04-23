@@ -10,7 +10,7 @@ import Foundation
 
 public class ActiveRecord {
     public class var primaryKey: String? {
-        return nil
+        return "ID"
     }
     
     public class var ignoreProperties: [String] {
@@ -33,6 +33,8 @@ public class ActiveRecord {
     public init() {
         
     }
+    
+    public var ID: Int = -1
     
     public var insertSql: String {
         let properties = self.properties
@@ -59,7 +61,7 @@ public class ActiveRecord {
             .joinWithSeparator(", ")
         let primaryKeyValue = SQLValueTransformer.transform(properties
             .filter { $0.0 == primaryKeyName }
-            .first!.1)
+            .first?.1 ?? ID)
         let table = self.dynamicType.table
         return "UPDATE \(table) SET \(set) WHERE \"\(primaryKeyName)\" = \(primaryKeyValue);"
     }
@@ -68,7 +70,7 @@ public class ActiveRecord {
         let primaryKeyName = self.dynamicType.primaryKey!
         let primaryKeyValue = SQLValueTransformer.transform(properties
             .filter { $0.0 == primaryKeyName }
-            .first!.1)
+            .first?.1 ?? ID)
         
         return "DELETE FROM \(self.dynamicType.table) WHERE \"\(primaryKeyName)\" = \(primaryKeyValue);"
     }

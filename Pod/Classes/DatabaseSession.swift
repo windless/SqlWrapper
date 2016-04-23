@@ -37,4 +37,115 @@ public class DatabaseSession {
             }
         }
     }
+    
+    public func insert(activeRecord: ActiveRecord) -> Bool {
+        var result = false
+        databaseQueue.inDatabase { db in
+            result = db.insert(activeRecord)
+        }
+        return result
+    }
+    
+    public func update(activeRecord: ActiveRecord) -> Bool {
+        var result = false
+        databaseQueue.inDatabase { db in
+            result = db.update(activeRecord)
+        }
+        return result
+    }
+    
+    public func delete(activeRecord: ActiveRecord) -> Bool {
+        var result = false
+        databaseQueue.inDatabase { db in
+            result = db.delete(activeRecord)
+        }
+        return result
+    }
+    
+    public func inTransaction(block: FMDatabase -> Bool) -> Bool {
+        var result = false
+        databaseQueue.inDatabase { db in
+            db.beginTransaction()
+            if block(db) {
+                db.commit()
+                result = true
+            } else {
+                db.rollback()
+                result = false
+            }
+        }
+        return result
+    }
+    
+    public func insert(activeRecords: ActiveRecord...) -> Bool {
+        return insert(activeRecords)
+    }
+    
+    public func insert(activeRecords: [ActiveRecord]) -> Bool {
+        return inTransaction { db in
+            for activeRecord in activeRecords {
+                if !db.insert(activeRecord) {
+                    return false
+                }
+            }
+            return true
+        }
+    }
+    
+    public func update(activeRecords: [ActiveRecord]) -> Bool {
+        return inTransaction { db in
+            for activeRecord in activeRecords {
+                if !db.update(activeRecord) {
+                    return false
+                }
+            }
+            return true
+        }
+    }
+    
+    public func update(activeRecords: ActiveRecord...) -> Bool {
+        return update(activeRecords)
+    }
+    
+    public func delete(activeRecords: [ActiveRecord]) -> Bool {
+        return inTransaction { db in
+            for activeRecord in activeRecords {
+                if !db.delete(activeRecord) {
+                    return false
+                }
+            }
+            return true
+        }
+    }
+    
+    public func delete(activeRecords: ActiveRecord...) -> Bool {
+        return delete(activeRecords)
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
