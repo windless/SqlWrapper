@@ -8,6 +8,15 @@
 
 import Foundation
 
+public protocol ResultSet {
+    func integer(column: String) -> Int?
+    func string(column: String) -> String?
+    func double(column: String) -> Double?
+    func bool(column: String) -> Bool?
+    func date(column: String) -> NSDate?
+    func data(column: String) -> NSData?
+}
+
 public class ActiveRecord {
     public class var primaryKey: String? {
         return "ID"
@@ -21,6 +30,10 @@ public class ActiveRecord {
         return String(self)
     }
     
+    public class func map<T: ActiveRecord>(resultSet: ResultSet) -> T? {
+        return nil
+    }
+    
     public var properties: [(String, Any)] {
         return Mirror(reflecting: self).children
             .filter {
@@ -30,7 +43,7 @@ public class ActiveRecord {
             .map { ($0.label!, $0.value) }
     }
     
-    public init() {
+    public required init() {
         
     }
     

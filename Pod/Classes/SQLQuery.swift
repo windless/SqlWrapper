@@ -97,15 +97,15 @@ public class SQLQuery {
     }
     
     public typealias ConditionGenerator = String -> SQLQueryCondition
-    public func whereWith(block: ConditionGenerator -> SQLQueryCondition) -> SQLQuery {
+    public func whereWith(block: (ConditionGenerator -> SQLQueryCondition)?) -> SQLQuery {
         let conditionGenerator: ConditionGenerator = { column in SQLQueryCondition(column: column) }
-        self.whereCondition = block(conditionGenerator).toSql()
+        self.whereCondition = block?(conditionGenerator).toSql()
         return self
     }
     
-    public func whereWith(block: ConditionGenerator -> SQLQueryComposedCondition) -> SQLQuery {
+    public func whereWith(block: (ConditionGenerator -> SQLQueryComposedCondition)?) -> SQLQuery {
         let conditionGenerator: ConditionGenerator = { column in SQLQueryCondition(column: column) }
-        self.whereCondition = block(conditionGenerator).toSql()
+        self.whereCondition = block?(conditionGenerator).toSql()
         return self
     }
     

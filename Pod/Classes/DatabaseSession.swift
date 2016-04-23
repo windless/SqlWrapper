@@ -37,7 +37,11 @@ public class DatabaseSession {
             }
         }
     }
-    
+}
+
+// CRUD
+public extension DatabaseSession {
+
     public func insert(activeRecord: ActiveRecord) -> Bool {
         var result = false
         databaseQueue.inDatabase { db in
@@ -121,7 +125,157 @@ public class DatabaseSession {
     public func delete(activeRecords: ActiveRecord...) -> Bool {
         return delete(activeRecords)
     }
+}
+
+// Query
+public extension DatabaseSession {
+    public func queryAll<T: ActiveRecord>(type: T.Type) -> [T] {
+        let activeRecord = type.init()
+        let columns = ["ID"] + activeRecord.properties.map { $0.0 }
+        let query = SQLQuery(table: type.table, columns: columns)
+        
+        return queryList(type, query: query)
+    }
     
+    public func queryList<T: ActiveRecord>(type: T.Type, whereBlock: SQLQuery.ConditionGenerator -> SQLQueryComposedCondition) -> [T] {
+        let activeRecord = type.init()
+        let columns = ["ID"] + activeRecord.properties.map { $0.0 }
+        let query = SQLQuery(table: type.table, columns: columns)
+        query.whereWith(whereBlock)
+        
+        return queryList(type, query: query)
+    }
+    
+    public func queryList<T: ActiveRecord>(type: T.Type, whereBlock: SQLQuery.ConditionGenerator -> SQLQueryCondition) -> [T] {
+        let activeRecord = type.init()
+        let columns = ["ID"] + activeRecord.properties.map { $0.0 }
+        let query = SQLQuery(table: type.table, columns: columns)
+        query.whereWith(whereBlock)
+        
+        return queryList(type, query: query)
+    }
+    
+    public func queryList<T: ActiveRecord>(type: T.Type, query: SQLQuery) -> [T] {
+        let sql = query.build()
+        
+        var result = [T]()
+        self.databaseQueue.inDatabase { db in
+            do {
+                NSLog(sql)
+                let fmResutlSets = try db.executeQuery(sql, values: [])
+                while fmResutlSets.next() {
+                    let activeRecord: T? = type.map(ResultSetImpl(resultSets: fmResutlSets))
+                    if let a = activeRecord {
+                        result.append(a)
+                    }
+                }
+            } catch {
+                
+            }
+        }
+        return result
+    }
+    
+    public func querySingle<T: ActiveRecord>(type: T.Type, query: SQLQuery) -> T? {
+        let sql = query.build()
+        
+        var result: T? = nil
+        self.databaseQueue.inDatabase { db in
+            do {
+                NSLog(sql)
+                let fmResutlSets = try db.executeQuery(sql, values: [])
+                if fmResutlSets.next() {
+                    let activeRecord: T? = type.map(ResultSetImpl(resultSets: fmResutlSets))
+                    result = activeRecord
+                }
+            } catch {
+                
+            }
+        }
+        return result
+    }
+    
+    public func querySingle<T: ActiveRecord>(type: T.Type, whereBlock: SQLQuery.ConditionGenerator -> SQLQueryComposedCondition) -> T? {
+        let activeRecord = type.init()
+        let columns = ["ID"] + activeRecord.properties.map { $0.0 }
+        let query = SQLQuery(table: type.table, columns: columns)
+        query.whereWith(whereBlock).limit(1)
+        
+        return querySingle(type, query: query)
+    }
+    
+    public func querySingle<T: ActiveRecord>(type: T.Type, whereBlock: SQLQuery.ConditionGenerator -> SQLQueryCondition) -> T? {
+        let activeRecord = type.init()
+        let columns = ["ID"] + activeRecord.properties.map { $0.0 }
+        let query = SQLQuery(table: type.table, columns: columns)
+        query.whereWith(whereBlock).limit(1)
+        
+        return querySingle(type, query: query)
+    }
+    
+    public func queryCount<T: ActiveRecord>(type: T.Type, query: SQLQuery) -> Int {
+        let sql = query.buildCount()
+        var result: Int = 0
+        self.databaseQueue.inDatabase { db in
+            do {
+                NSLog(sql)
+                let resultSet = try db.executeQuery(sql, values: [])
+                if resultSet.next() {
+                    result = Int(resultSet.intForColumnIndex(0))
+                }
+                
+            } catch {
+                
+            }
+            
+        }
+        return result
+    }
+    
+    public func queryCount<T: ActiveRecord>(type: T.Type, whereBlock: SQLQuery.ConditionGenerator -> SQLQueryComposedCondition) -> Int {
+        let query = SQLQuery(table: type.table, columns: ["ID"])
+        query.whereWith(whereBlock).limit(1)
+        return queryCount(type, query: query)
+    }
+    
+    public func queryCount<T: ActiveRecord>(type: T.Type, whereBlock: SQLQuery.ConditionGenerator -> SQLQueryCondition) -> Int {
+        let query = SQLQuery(table: type.table, columns: ["ID"])
+        query.whereWith(whereBlock).limit(1)
+        return queryCount(type, query: query)
+    }
+    
+}
+
+private class ResultSetImpl: ResultSet {
+    let fmResultSets: FMResultSet
+    
+    init(resultSets: FMResultSet) {
+        self.fmResultSets = resultSets
+    }
+    
+    func integer(column: String) -> Int? {
+        return Int(fmResultSets.intForColumn(column))
+    }
+    
+    func bool(column: String) -> Bool? {
+        return fmResultSets.boolForColumn(column)
+    }
+    
+    func string(column: String) -> String? {
+        return fmResultSets.stringForColumn(column)
+    }
+    
+    func double(column: String) -> Double? {
+        return fmResultSets.doubleForColumn(column)
+    }
+    
+    func date(column: String) -> NSDate? {
+        return fmResultSets.dateForColumn(column)
+    }
+    
+    func data(column: String) -> NSData? {
+        return fmResultSets.dataForColumn(column)
+    }
 }
 
 

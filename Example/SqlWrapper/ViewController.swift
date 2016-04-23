@@ -46,18 +46,23 @@ class ViewController: UIViewController {
         }
         session.setup([migraion2, migraion1, migration3])
         
-        session.inTransaction { db in
-            for i in (0..<10) {
-                let s = Student(name: "\(i)", age: i, sex: 0)
-                if !db.insert(s) {
-                    return false
-                }
-                if i == 4 {
-                    return false
-                }
-            }
-            return true
+        let students = session.queryList(Student.self) { c in
+            c("age") == 18
         }
+        NSLog("students: \(students.count)")
+        
+        let student = session.querySingle(Student.self) { c in
+            c("age") == 18 && c("name") == "9"
+        }
+        NSLog("\(student)")
+        
+        let count = session.queryCount(Student.self) { c in
+            c("age") == 18
+        }
+        NSLog("age 18 count: \(count)")
+        
+        let all = session.queryAll(Student.self)
+        NSLog("all \(all)")
     }
 
     override func didReceiveMemoryWarning() {
@@ -77,8 +82,32 @@ class Student: ActiveRecord {
         self.name = name
         self.age = age
         self.sex = sex
+        super.init()
+    }
+    
+    required init() {
+        name = ""
+        age = 0
+        sex = 0
     }
     
     override class var primaryKey: String? { return "ID" }
+    
+    override class func map<T: ActiveRecord>(resultSet: ResultSet) -> T? {
+        let name = resultSet.string("name")!
+        let age = resultSet.integer("age")!
+        let sex = resultSet.integer("sex")!
+        let grade = resultSet.double("grade")
+        let classId = resultSet.integer("classId")
+        let height = resultSet.integer("height")
+        let id = resultSet.integer("ID")!
+        
+        let student = Student(name: name, age: age, sex: sex)
+        student.ID = id
+        student.grade = grade
+        student.classId = classId
+        student.height = height
+        return student as? T
+    }
 }
 
