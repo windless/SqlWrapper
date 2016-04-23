@@ -51,9 +51,14 @@ public class SQLMigrationTable: SQLSqlable {
     public func toSql() -> String {
         let columnsToken = columns.map { $0.toSql() }.joinWithSeparator(", ")
         if isAddColumn {
-            return "ALTER TABLE \(name) ADD COLUMN (\(columnsToken));"
+            return columns.map { "ALTER TABLE \(name) ADD COLUMN \($0.toSql());" }
+                .joinWithSeparator("\n")
         } else {
-            return "CREATE TABLE \(name)(\(columnsToken));"
+            if columns.count > 1 {
+                return "CREATE TABLE \(name)(\(columnsToken));"
+            } else {
+                return "CREATE TABLE \(name)(\(columnsToken));"
+            }
         }
     }
 }

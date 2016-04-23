@@ -9,10 +9,10 @@
 import Foundation
 
 public class SQLMigration {
-    let version: Int
+    let version: UInt
     var sqlStatements = [String]()
 
-    public init(version: Int) {
+    public init(version: UInt) {
         self.version = version
     }
 

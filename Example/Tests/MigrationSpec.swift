@@ -97,7 +97,8 @@ class MigrationSpec: QuickSpec {
                     }
 
                     expect(migration.buildScheme()) ==
-                        "ALTER TABLE People ADD COLUMN (age INT NOT NULL, name TEXT UNIQUE);"
+                        "ALTER TABLE People ADD COLUMN age INT NOT NULL;\n" +
+                        "ALTER TABLE People ADD COLUMN name TEXT UNIQUE;"
                 }
             }
 
