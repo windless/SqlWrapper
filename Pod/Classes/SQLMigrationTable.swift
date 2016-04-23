@@ -12,10 +12,12 @@ public class SQLMigrationTable: SQLSqlable {
     let name: String
     
     private var columns: [SQLSqlable]
+    private let isAddColumn: Bool
     
-    public init(tableName: String) {
+    public init(tableName: String, isAddColumn: Bool = false) {
         self.name = tableName
         self.columns = []
+        self.isAddColumn = isAddColumn
     }
     
     public func id() {
@@ -48,7 +50,11 @@ public class SQLMigrationTable: SQLSqlable {
     
     public func toSql() -> String {
         let columnsToken = columns.map { $0.toSql() }.joinWithSeparator(", ")
-        return "CREATE TABLE \(name)(\(columnsToken));"
+        if isAddColumn {
+            return "ALTER TABLE \(name) ADD COLUMN (\(columnsToken));"
+        } else {
+            return "CREATE TABLE \(name)(\(columnsToken));"
+        }
     }
 }
 

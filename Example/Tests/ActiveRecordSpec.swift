@@ -78,11 +78,6 @@ class MockActiveRecord: ActiveRecord {
     let letInt: Int = 1
     
     var ignoredProperty: Int?
-    
-    func relationship(r: Relationship) {
-        r.hasMany(Other.self).on("name", "name")
-        r.belongsTo(Other.self)
-    }
 }
 
 
