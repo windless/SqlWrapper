@@ -28,7 +28,7 @@ class MigrationSpec: QuickSpec {
                         }
 
                         expect(migration.buildScheme()) ==
-                            "CREATE TABLE People(age INT);"
+                            "CREATE TABLE People(age INTEGER);"
                     }
 
                     it("with not null constraint") {
@@ -37,7 +37,7 @@ class MigrationSpec: QuickSpec {
                         }
 
                         expect(migration.buildScheme()) ==
-                            "CREATE TABLE People(age INT NOT NULL);"
+                            "CREATE TABLE People(age INTEGER NOT NULL);"
                     }
 
                     it("id") {
@@ -46,7 +46,7 @@ class MigrationSpec: QuickSpec {
                         }
 
                         expect(migration.buildScheme()) ==
-                            "CREATE TABLE People(ID INT PRIMARY KEY NOT NULL);"
+                            "CREATE TABLE People(ID INTEGER PRIMARY KEY AUTOINCREMENT);"
                     }
 
                     it("with default value") {
@@ -55,7 +55,7 @@ class MigrationSpec: QuickSpec {
                         }
 
                         expect(migration.buildScheme()) ==
-                            "CREATE TABLE People(age INT DEFAULT 18);"
+                            "CREATE TABLE People(age INTEGER DEFAULT 18);"
                     }
                 }
 
@@ -69,7 +69,7 @@ class MigrationSpec: QuickSpec {
                     }
 
                     expect(migration.buildScheme()) ==
-                        "CREATE TABLE People(ID INT PRIMARY KEY NOT NULL, age INT NOT NULL, name TEXT UNIQUE, height REAL DEFAULT 181.2, image BLOB);"
+                        "CREATE TABLE People(ID INTEGER PRIMARY KEY AUTOINCREMENT, age INTEGER NOT NULL, name TEXT UNIQUE, height REAL DEFAULT 181.2, image BLOB);"
                 }
 
                 it("adds index") {
@@ -97,7 +97,7 @@ class MigrationSpec: QuickSpec {
                     }
 
                     expect(migration.buildScheme()) ==
-                        "ALTER TABLE People ADD COLUMN age INT NOT NULL;\n" +
+                        "ALTER TABLE People ADD COLUMN age INTEGER NOT NULL;\n" +
                         "ALTER TABLE People ADD COLUMN name TEXT UNIQUE;"
                 }
             }

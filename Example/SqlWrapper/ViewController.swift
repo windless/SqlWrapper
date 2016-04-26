@@ -46,23 +46,9 @@ class ViewController: UIViewController {
         }
         session.setup([migraion2, migraion1, migration3])
         
-        let students = session.queryList(Student.self) { c in
+        session.delete(Student.self) { c in
             c("age") == 18
         }
-        NSLog("students: \(students.count)")
-        
-        let student = session.querySingle(Student.self) { c in
-            c("age") == 18 && c("name") == "9"
-        }
-        NSLog("\(student)")
-        
-        let count = session.queryCount(Student.self) { c in
-            c("age") == 18
-        }
-        NSLog("age 18 count: \(count)")
-        
-        let all = session.queryAll(Student.self)
-        NSLog("all \(all)")
     }
 
     override func didReceiveMemoryWarning() {

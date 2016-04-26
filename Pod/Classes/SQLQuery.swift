@@ -117,6 +117,10 @@ public class SQLQuery {
         return "SELECT count(*) FROM \(self.table)\(whereToken)\(groupByToken)\(orderByToken)\(limitToken)\(offsetToken);"
     }
     
+    public func buildDelete() -> String {
+        return "DELETE FROM \(table)\(whereToken);"
+    }
+    
     private var columnsToken: String {
         return self.selectColumns?.map { "\"\($0)\"" }.joinWithSeparator(", ") ?? "*"
     }

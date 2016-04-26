@@ -49,4 +49,15 @@ public extension FMDatabase {
             return false
         }
     }
+    
+    public func delete(query: SQLQuery) -> Bool {
+        do {
+            let sql = query.buildDelete()
+            NSLog(sql)
+            try self.executeUpdate(sql, values: [])
+            return true
+        } catch {
+            return false
+        }
+    }
 }

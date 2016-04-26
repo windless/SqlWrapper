@@ -125,6 +125,26 @@ public extension DatabaseSession {
     public func delete(activeRecords: ActiveRecord...) -> Bool {
         return delete(activeRecords)
     }
+    
+    public func delete<T: ActiveRecord>(type: T.Type, query: SQLQuery) -> Bool {
+        var result = false
+        self.databaseQueue.inDatabase { db in
+            result = db.delete(query)
+        }
+        return result
+    }
+    
+    public func delete<T: ActiveRecord>(type: T.Type, whereBlock: SQLQuery.ConditionGenerator -> SQLQueryComposedCondition) -> Bool {
+        let query = SQLQuery(table: type.table)
+        query.whereWith(whereBlock)
+        return delete(type, query: query)
+    }
+    
+    public func delete<T: ActiveRecord>(type: T.Type, whereBlock: SQLQuery.ConditionGenerator -> SQLQueryCondition) -> Bool {
+        let query = SQLQuery(table: type.table)
+        query.whereWith(whereBlock)
+        return delete(type, query: query)
+    }
 }
 
 // Query
@@ -243,6 +263,7 @@ public extension DatabaseSession {
         query.whereWith(whereBlock).limit(1)
         return queryCount(type, query: query)
     }
+    
     
 }
 

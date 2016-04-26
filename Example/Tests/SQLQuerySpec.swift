@@ -155,6 +155,15 @@ class SQLQuerySpec: QuickSpec {
                 expect(query.buildCount()) == "SELECT count(*) FROM Table WHERE c1 = 1;"
                 
             }
+            
+            it("deletes records") {
+                let query = SQLQuery(table: "Table")
+                    .whereWith { c in
+                        c("c1") == 1
+                    }
+                expect(query.buildDelete()) ==
+                    "DELETE FROM Table WHERE c1 = 1;"
+            }
         }
     }
 }
