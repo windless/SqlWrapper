@@ -18,7 +18,7 @@ public protocol ResultSet {
 }
 
 public class ActiveRecord {
-    public class var primaryKey: String? {
+    public class var primaryKey: String {
         return "ID"
     }
     
@@ -49,8 +49,31 @@ public class ActiveRecord {
     
     public var ID: Int = -1
     
-    public var insertSql: String {
-        let properties = self.properties
+    public var primaryKeyValue: Any {
+        let primaryKey = self.dynamicType.primaryKey
+        if primaryKey == "ID" {
+            return self.ID
+        } else {
+            return self.properties.filter { $0.0 == primaryKey }.first!.1
+        }
+    }
+}
+
+public class ActiveRecordStatement: Statement {
+    let activeRecord: ActiveRecord
+    
+    public init(activeRecord: ActiveRecord) {
+        self.activeRecord = activeRecord
+    }
+    
+    public var sqlString: String {
+        fatalError()
+    }
+}
+
+public class ActiveRecordInsertStatement: ActiveRecordStatement {
+    public override var sqlString: String {
+        let properties = activeRecord.properties
         var columns = [String]()
         var values = [String]()
         for (column, value) in properties {
@@ -61,31 +84,31 @@ public class ActiveRecord {
         let columnsToken = columns.joinWithSeparator(", ")
         let valuesToken = values.joinWithSeparator(", ")
         
-        return "INSERT INTO \(self.dynamicType.table) (\(columnsToken)) VALUES (\(valuesToken));"
+        return "INSERT INTO \(activeRecord.dynamicType.table) (\(columnsToken)) VALUES (\(valuesToken));"
     }
-    
-    public var updateSql: String {
-        let primaryKeyName = self.dynamicType.primaryKey!
+}
+
+public class ActiveRecordUpdateStatement: ActiveRecordStatement {
+    public override var sqlString: String {
+        let primaryKeyName = activeRecord.dynamicType.primaryKey
         
-        let properties = self.properties
+        let properties = activeRecord.properties
         let set = properties
             .filter { $0.0 != primaryKeyName }
             .map { "\"\($0.0)\" = \(SQLValueTransformer.transform($0.1))" }
             .joinWithSeparator(", ")
-        let primaryKeyValue = SQLValueTransformer.transform(properties
-            .filter { $0.0 == primaryKeyName }
-            .first?.1 ?? ID)
-        let table = self.dynamicType.table
+        let primaryKeyValue = SQLValueTransformer.transform(activeRecord.primaryKeyValue)
+        let table = activeRecord.dynamicType.table
         return "UPDATE \(table) SET \(set) WHERE \"\(primaryKeyName)\" = \(primaryKeyValue);"
     }
-    
-    public var deleteSql: String {
-        let primaryKeyName = self.dynamicType.primaryKey!
-        let primaryKeyValue = SQLValueTransformer.transform(properties
-            .filter { $0.0 == primaryKeyName }
-            .first?.1 ?? ID)
+}
+
+public class ActiveRecordDeleteStatement: ActiveRecordStatement {
+    public override var sqlString: String {
+        let primaryKeyName = activeRecord.dynamicType.primaryKey
+        let primaryKeyValue = SQLValueTransformer.transform(activeRecord.primaryKeyValue)
         
-        return "DELETE FROM \(self.dynamicType.table) WHERE \"\(primaryKeyName)\" = \(primaryKeyValue);"
+        return "DELETE FROM \(activeRecord.dynamicType.table) WHERE \"\(primaryKeyName)\" = \(primaryKeyValue);"
     }
 }
 

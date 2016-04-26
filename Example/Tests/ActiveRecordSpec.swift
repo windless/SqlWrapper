@@ -38,29 +38,32 @@ class ActiveRecordSpec: QuickSpec {
             }
             
             it("builds insert sql") {
-                expect(activeRecord.insertSql) ==
+                let statement = ActiveRecordInsertStatement(activeRecord: activeRecord)
+                expect(statement.sqlString) ==
                     "INSERT INTO MockActiveRecord (\"primaryKey\", \"varString\", \"varStringOption\", \"varStringOptionNil\", \"letString\", \"letInt\") VALUES ('primaryKey', 'varString', 'varStringOption', null, 'letString', 1);"
             }
             
             it("builds update sql") {
-                expect(activeRecord.updateSql) ==
+                let statement = ActiveRecordUpdateStatement(activeRecord: activeRecord)
+                expect(statement.sqlString) ==
                     "UPDATE MockActiveRecord SET \"varString\" = 'varString', \"varStringOption\" = 'varStringOption', \"varStringOptionNil\" = null, \"letString\" = 'letString', \"letInt\" = 1 WHERE \"primaryKey\" = 'primaryKey';"
             }
             
             it("build delete sql") {
-                expect(activeRecord.deleteSql) ==
+                let statement = ActiveRecordDeleteStatement(activeRecord: activeRecord)
+                expect(statement.sqlString) ==
                     "DELETE FROM MockActiveRecord WHERE \"primaryKey\" = 'primaryKey';"
             }
             
-            it("has relationships") {
-                
+            it("has primaryKeyValue") {
+                expect(activeRecord.primaryKeyValue as? String) == "primaryKey"
             }
         }
     }
 }
 
 class MockActiveRecord: ActiveRecord {
-    override class var primaryKey: String? {
+    override class var primaryKey: String {
         return "primaryKey"
     }
     
