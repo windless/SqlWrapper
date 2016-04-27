@@ -118,7 +118,7 @@ public extension FMDatabase {
     private func map<T: ActiveRecord>(resultSet: FMResultSet, type: T.Type) -> [T] {
         var result = [T]()
         while resultSet.next() {
-            let activeRecord: T? = type.map(ResultSetImpl(resultSets: resultSet))
+            let activeRecord: T? = type.map(ResultSetImpl(resultSets: resultSet, type: type))
             if let a = activeRecord {
                 result.append(a)
             }
@@ -213,33 +213,68 @@ public extension FMDatabase {
 
 class ResultSetImpl: ResultSet {
     let fmResultSets: FMResultSet
+    let type: ActiveRecord.Type
     
-    init(resultSets: FMResultSet) {
+    init(resultSets: FMResultSet, type: ActiveRecord.Type) {
         self.fmResultSets = resultSets
+        self.fmResultSets.columnIndexForName("")
+        self.type = type
     }
     
     func integer(column: String) -> Int? {
-        return Int(fmResultSets.intForColumn(column))
+        let index = indexForColumn(column)
+        if index != -1 {
+            return Int(fmResultSets.intForColumnIndex(index))
+        }
+        return nil
     }
     
     func bool(column: String) -> Bool? {
-        return fmResultSets.boolForColumn(column)
+        let index = indexForColumn(column)
+        if index != -1 {
+            return fmResultSets.boolForColumnIndex(index)
+        }
+        return nil
     }
     
     func string(column: String) -> String? {
-        return fmResultSets.stringForColumn(column)
+        let index = indexForColumn(column)
+        if index != -1 {
+            return fmResultSets.stringForColumnIndex(index)
+        }
+        return nil
     }
     
     func double(column: String) -> Double? {
-        return fmResultSets.doubleForColumn(column)
+        let index = indexForColumn(column)
+        if index != -1 {
+            return fmResultSets.doubleForColumnIndex(index)
+        }
+        return nil
     }
     
     func date(column: String) -> NSDate? {
-        return fmResultSets.dateForColumn(column)
+        let index = indexForColumn(column)
+        if index != -1 {
+            return fmResultSets.dateForColumnIndex(index)
+        }
+        return nil
     }
     
     func data(column: String) -> NSData? {
-        return fmResultSets.dataForColumn(column)
+        let index = indexForColumn(column)
+        if index != -1 {
+            return fmResultSets.dataForColumnIndex(index)
+        }
+        return nil
+    }
+    
+    private func indexForColumn(column: String) -> Int32 {
+        let index = fmResultSets.columnIndexForName(column)
+        if index == -1 {
+            return fmResultSets.columnIndexForName("\(type.table).\(column)")
+        }
+        return index
     }
 }
 

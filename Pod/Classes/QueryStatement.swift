@@ -148,6 +148,7 @@ public class Query: Statement {
 }
 
 public class QuerySelect: Query {
+    var joinTokens = [(ActiveRecord.Type, String)]()
     
     public convenience init(type: ActiveRecord.Type) {
         let activeRecord = type.init()
@@ -156,7 +157,36 @@ public class QuerySelect: Query {
     }
     
     public override var sqlString: String {
-        return "SELECT\(distinctToken) \(columnsToken) FROM \(self.table)\(whereToken)\(groupByToken)\(orderByToken)\(limitToken)\(offsetToken);"
+        return "SELECT\(distinctToken) \(columnsToken) FROM \(self.table)\(joinToken)\(whereToken)\(groupByToken)\(orderByToken)\(limitToken)\(offsetToken);"
+    }
+    
+    public func join(type: ActiveRecord.Type, on: (String, String)) -> Query {
+        let joinToken = " JOIN \(type.table) ON \(on.0) = \(on.1)"
+        joinTokens.append((type, joinToken))
+        return self
+    }
+    
+    private var joinToken: String {
+        return joinTokens.count > 0 ? joinTokens.map { $0.1 }.joinWithSeparator("") : ""
+    }
+    
+    private override var columnsToken: String {
+        if joinTokens.count > 0 {
+            if let selectColumns = self.selectColumns {
+                var columns = selectColumns.map { "\"\(table).\($0)\" AS \"\(table).\($0)\"" }
+                
+                for join in joinTokens {
+                    let activeRecord = join.0.init()
+                    let joinColumns = (["ID"] + activeRecord.properties.map { $0.0 })
+                        .map { "\"\(join.0.table).\($0)\" AS \"\(join.0.table).\($0)\"" }
+                    columns = columns + joinColumns
+                }
+                return columns.joinWithSeparator(", ")
+            }
+            return "*"
+        } else {
+            return super.columnsToken
+        }
     }
 }
 
@@ -192,6 +222,7 @@ public class QueryUpdate: Query {
         return "UPDATE \(table) SET \(setToken)\(whereToken);"
     }
 }
+
 
 
 

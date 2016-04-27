@@ -173,6 +173,23 @@ class SQLQuerySpec: QuickSpec {
                 expect(query.sqlString) ==
                     "UPDATE Table SET c2 = 'hello', c1 = 1 WHERE c1 = 1;"
             }
+            
+            context("query ActiveRecord") {
+                it("select") {
+                    let query = QuerySelect(type: Student.self).whereWith { c in
+                        c("name") == "windless"
+                    }
+                    expect(query.sqlString) ==
+                        "SELECT \"ID\", \"name\", \"age\", \"classId\" FROM Student WHERE name = 'windless';"
+                }
+                
+                it("select with join") {
+                    let query = QuerySelect(type: Student.self)
+                        .join(Class.self, on: ("Student.classId", "Class.ID"))
+                    expect(query.sqlString) ==
+                        "SELECT \"Student.ID\" AS \"Student.ID\", \"Student.name\" AS \"Student.name\", \"Student.age\" AS \"Student.age\", \"Student.classId\" AS \"Student.classId\", \"Class.ID\" AS \"Class.ID\", \"Class.name\" AS \"Class.name\" FROM Student JOIN Class ON Student.classId = Class.ID;"
+                }
+            }
         }
     }
 }
@@ -180,6 +197,33 @@ class SQLQuerySpec: QuickSpec {
 class MockCondition: QueryCondition {
     override var sqlString: String {
         return "mock"
+    }
+}
+
+class Student: ActiveRecord {
+    var name: String
+    var age: Int
+    var classId: Int?
+    
+    init(name: String, age: Int) {
+        self.name = name
+        self.age = age
+    }
+    
+    required init() {
+        name = ""
+        age = 0
+    }
+}
+
+class Class: ActiveRecord {
+    var name: String = ""
+    
+    init(name: String) {
+        self.name = name
+    }
+    
+    required init() {
     }
 }
 
