@@ -69,7 +69,7 @@ public extension FMDatabase {
 
 public extension FMDatabase {
     public func selectCount(query: QueryCount) -> Int {
-        if let resultSet = try executeQuery(query) {
+        if let resultSet = executeQuery(query) {
             return Int(resultSet.intForColumnIndex(0))
         }
         return 0
