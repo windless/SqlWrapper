@@ -24,7 +24,7 @@ public extension FMDatabase {
 }
 
 public extension FMDatabase {
-    public func ceateTable(table: String, block: CreateTableStatement -> Void) -> Bool {
+    public func createTable(table: String, block: CreateTableStatement -> Void) -> Bool {
         let statement = CreateTableStatement(tableName: table)
         block(statement)
         return executeStatements(statement)
