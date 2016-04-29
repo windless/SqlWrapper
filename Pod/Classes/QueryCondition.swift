@@ -100,12 +100,22 @@ public func > (left: QueryCondition, right: Double) -> QueryCondition {
     return left
 }
 
+public func > (left: QueryCondition, right: NSDate) -> QueryCondition {
+    left.conditionOperator = ConditionOperator.GT(right)
+    return left
+}
+
 public func < (left: QueryCondition, right: Int) -> QueryCondition {
     left.conditionOperator = ConditionOperator.LT(right)
     return left
 }
 
 public func < (left: QueryCondition, right: Double) -> QueryCondition {
+    left.conditionOperator = ConditionOperator.LT(right)
+    return left
+}
+
+public func < (left: QueryCondition, right: NSDate) -> QueryCondition {
     left.conditionOperator = ConditionOperator.LT(right)
     return left
 }
@@ -120,12 +130,22 @@ public func >= (left: QueryCondition, right: Double) -> QueryCondition {
     return left
 }
 
+public func >= (left: QueryCondition, right: NSDate) -> QueryCondition {
+    left.conditionOperator = ConditionOperator.GE(right)
+    return left
+}
+
 public func <= (left: QueryCondition, right: Int) -> QueryCondition {
     left.conditionOperator = ConditionOperator.LE(right)
     return left
 }
 
 public func <= (left: QueryCondition, right: Double) -> QueryCondition {
+    left.conditionOperator = ConditionOperator.LE(right)
+    return left
+}
+
+public func <= (left: QueryCondition, right: NSDate) -> QueryCondition {
     left.conditionOperator = ConditionOperator.LE(right)
     return left
 }

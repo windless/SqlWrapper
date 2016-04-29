@@ -68,6 +68,10 @@ class SQLQueryConditionSpec: QuickSpec {
                 
                 let sql2 = (condition > 1.0).sqlString
                 expect(sql2) == "c > 1.0"
+                
+                let date = NSDate()
+                let sql3 = (condition > date).sqlString
+                expect(sql3) == "c > \(Int(date.timeIntervalSince1970 * 1000))"
             }
             
             it("< value") {
@@ -76,6 +80,10 @@ class SQLQueryConditionSpec: QuickSpec {
                 
                 let sql2 = (condition < 1.0).sqlString
                 expect(sql2) == "c < 1.0"
+                
+                let date = NSDate()
+                let sql3 = (condition < date).sqlString
+                expect(sql3) == "c < \(Int(date.timeIntervalSince1970 * 1000))"
             }
             
             it(">= value") {
@@ -84,6 +92,10 @@ class SQLQueryConditionSpec: QuickSpec {
                 
                 let sql2 = (condition >= 1.0).sqlString
                 expect(sql2) == "c >= 1.0"
+                
+                let date = NSDate()
+                let sql3 = (condition >= date).sqlString
+                expect(sql3) == "c >= \(Int(date.timeIntervalSince1970 * 1000))"
             }
             
             it("<= value") {
@@ -92,6 +104,10 @@ class SQLQueryConditionSpec: QuickSpec {
                 
                 let sql2 = (condition <= 1.0).sqlString
                 expect(sql2) == "c <= 1.0"
+                
+                let date = NSDate()
+                let sql3 = (condition <= date).sqlString
+                expect(sql3) == "c <= \(Int(date.timeIntervalSince1970 * 1000))"
             }
             
             it("like value") {
