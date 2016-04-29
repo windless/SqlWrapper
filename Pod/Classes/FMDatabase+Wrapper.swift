@@ -118,7 +118,7 @@ public extension FMDatabase {
     private func map<T: ActiveRecord>(resultSet: FMResultSet, type: T.Type) -> [T] {
         var result = [T]()
         while resultSet.next() {
-            let activeRecord: T? = type.map(ResultSetImpl(resultSets: resultSet, type: type))
+            let activeRecord: T? = type.map(SWResultSet(resultSets: resultSet, type: type))
             if let a = activeRecord {
                 result.append(a)
             }
@@ -212,17 +212,17 @@ public extension FMDatabase {
 }
 
 
-class ResultSetImpl: ResultSet {
+public class SWResultSet: ResultSet {
     let fmResultSets: FMResultSet
     let type: ActiveRecord.Type
     
-    init(resultSets: FMResultSet, type: ActiveRecord.Type) {
+    public init(resultSets: FMResultSet, type: ActiveRecord.Type) {
         self.fmResultSets = resultSets
         self.fmResultSets.columnIndexForName("")
         self.type = type
     }
     
-    func integer(column: String) -> Int? {
+    public func integer(column: String) -> Int? {
         let index = indexForColumn(column)
         if index != -1 {
             return Int(fmResultSets.intForColumnIndex(index))
@@ -230,7 +230,7 @@ class ResultSetImpl: ResultSet {
         return nil
     }
     
-    func bool(column: String) -> Bool? {
+    public func bool(column: String) -> Bool? {
         let index = indexForColumn(column)
         if index != -1 {
             return fmResultSets.boolForColumnIndex(index)
@@ -238,7 +238,7 @@ class ResultSetImpl: ResultSet {
         return nil
     }
     
-    func string(column: String) -> String? {
+    public func string(column: String) -> String? {
         let index = indexForColumn(column)
         if index != -1 {
             return fmResultSets.stringForColumnIndex(index)
@@ -246,7 +246,7 @@ class ResultSetImpl: ResultSet {
         return nil
     }
     
-    func double(column: String) -> Double? {
+    public func double(column: String) -> Double? {
         let index = indexForColumn(column)
         if index != -1 {
             return fmResultSets.doubleForColumnIndex(index)
@@ -254,7 +254,7 @@ class ResultSetImpl: ResultSet {
         return nil
     }
     
-    func date(column: String) -> NSDate? {
+    public func date(column: String) -> NSDate? {
         let index = indexForColumn(column)
         if index != -1 {
             return fmResultSets.dateForColumnIndex(index)
@@ -262,7 +262,7 @@ class ResultSetImpl: ResultSet {
         return nil
     }
     
-    func data(column: String) -> NSData? {
+    public func data(column: String) -> NSData? {
         let index = indexForColumn(column)
         if index != -1 {
             return fmResultSets.dataForColumnIndex(index)
