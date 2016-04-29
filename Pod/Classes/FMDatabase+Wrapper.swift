@@ -128,22 +128,23 @@ public extension FMDatabase {
 }
 
 public extension FMDatabase {
-    public func insertRecord(activeRecord: ActiveRecord) -> Bool {
+    public func insertRecord(activeRecord: ActiveRecord) -> Int? {
         do {
             let statement = ActiveRecordInsertStatement(activeRecord: activeRecord)
             try self.executeUpdate(statement.sqlString, values: [])
+            let lastInsertRowId = Int(self.lastInsertRowId())
             if activeRecord.dynamicType.primaryKey == "ID" {
-                activeRecord.ID = Int(self.lastInsertRowId())
+                activeRecord.ID = lastInsertRowId
             }
-            return true
+            return lastInsertRowId
         } catch {
-            return false
+            return nil
         }
     }
     
     public func insertRecords(activeRecords: [ActiveRecord]) -> Bool {
         for activeRecord in activeRecords {
-            if !insertRecord(activeRecord) {
+            if insertRecord(activeRecord) != nil {
                 return false
             }
         }
