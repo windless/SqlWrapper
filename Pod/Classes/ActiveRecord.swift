@@ -17,7 +17,7 @@ public protocol ResultSet {
     func data(column: String) -> NSData?
 }
 
-public class ActiveRecord {
+public class ActiveRecord: NSObject {
     public class var primaryKey: String {
         return "ID"
     }
@@ -43,8 +43,8 @@ public class ActiveRecord {
             .map { ($0.label!, $0.value) }
     }
     
-    public required init() {
-        
+    public required override init() {
+        super.init()
     }
     
     public var ID: Int = -1

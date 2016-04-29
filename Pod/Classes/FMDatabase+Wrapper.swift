@@ -128,7 +128,7 @@ public extension FMDatabase {
 }
 
 public extension FMDatabase {
-    public func insert(activeRecord: ActiveRecord) -> Bool {
+    public func insertRecord(activeRecord: ActiveRecord) -> Bool {
         do {
             let statement = ActiveRecordInsertStatement(activeRecord: activeRecord)
             try self.executeUpdate(statement.sqlString, values: [])
@@ -141,16 +141,16 @@ public extension FMDatabase {
         }
     }
     
-    public func insert(activeRecords: [ActiveRecord]) -> Bool {
+    public func insertRecords(activeRecords: [ActiveRecord]) -> Bool {
         for activeRecord in activeRecords {
-            if !insert(activeRecord) {
+            if !insertRecord(activeRecord) {
                 return false
             }
         }
         return true
     }
     
-    public func update(activeRecord: ActiveRecord) -> Bool {
+    public func updateRecord(activeRecord: ActiveRecord) -> Bool {
         do {
             let statement = ActiveRecordUpdateStatement(activeRecord: activeRecord)
             try self.executeUpdate(statement.sqlString, values: [])
@@ -160,37 +160,37 @@ public extension FMDatabase {
         }
     }
     
-    public func update(activeRecords: [ActiveRecord]) -> Bool {
+    public func updateRecords(activeRecords: [ActiveRecord]) -> Bool {
         for activeRecord in activeRecords {
-            if !update(activeRecord) {
+            if !updateRecord(activeRecord) {
                 return false
             }
         }
         return true
     }
     
-    public func insertOrUpdate(activeRecord: ActiveRecord) -> Bool {
+    public func insertOrUpdateRecord(activeRecord: ActiveRecord) -> Bool {
         let count = selectCount(activeRecord.dynamicType) { c in
             c(activeRecord.dynamicType.primaryKey) == activeRecord.primaryKeyValue
         }
         if count > 0 {
-            update(activeRecord)
+            updateRecord(activeRecord)
         } else {
-            insert(activeRecord)
+            insertRecord(activeRecord)
         }
         return true
     }
     
-    public func insertOrUpdate(activeRecords: [ActiveRecord]) -> Bool {
+    public func insertOrUpdateRecords(activeRecords: [ActiveRecord]) -> Bool {
         for activeRecord in activeRecords {
-            if !insertOrUpdate(activeRecord) {
+            if !insertOrUpdateRecord(activeRecord) {
                 return false
             }
         }
         return true
     }
     
-    public func delete(activeRecord: ActiveRecord) -> Bool {
+    public func deleteRecord(activeRecord: ActiveRecord) -> Bool {
         do {
             let statement = ActiveRecordDeleteStatement(activeRecord: activeRecord)
             try self.executeUpdate(statement.sqlString, values: [])
@@ -200,9 +200,9 @@ public extension FMDatabase {
         }
     }
     
-    public func delete(activeRecords: [ActiveRecord]) -> Bool {
+    public func deleteRecords(activeRecords: [ActiveRecord]) -> Bool {
         for activeRecord in activeRecords {
-            if !delete(activeRecord) {
+            if !deleteRecord(activeRecord) {
                 return false
             }
         }
