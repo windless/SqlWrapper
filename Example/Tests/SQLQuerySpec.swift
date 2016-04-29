@@ -122,14 +122,6 @@ class SQLQuerySpec: QuickSpec {
                     expect(query.sqlString) == "SELECT * FROM TableName WHERE Column == 1;"
                 }
                 
-                it("where by SQLQueryCondition") {
-                    let condition = MockCondition(column: "Mock")
-                    let query = QuerySelect(table: "TableName")
-                    .whereWith { condition }
-                    
-                    expect(query.sqlString) == "SELECT * FROM TableName WHERE \(condition.sqlString);"
-                }
-                
                 it("where by SQLQueryCondition wrapper") {
                     let query = QuerySelect(table: "TableName")
                         .whereWith { c in

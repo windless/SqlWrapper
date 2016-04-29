@@ -96,11 +96,6 @@ public class Query: Statement {
         return self
     }
     
-    public func whereWith(block: Void -> QueryCondition) -> Query {
-        self.whereCondition = block().sqlString
-        return self
-    }
-    
     public typealias ConditionGenerator = String -> QueryCondition
     public typealias ConditionBlock = ConditionGenerator -> Statement
     
